@@ -5,44 +5,21 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
+	"hash"
 	"strings"
 )
 
-func protocolSwitcher(method string) func([]byte) []byte {
+func protocolSwitcher(method string) hash.Hash {
 	method = strings.ToLower(method)
     switch method {
         case "sha1", "sha-1":
-            return hashSha1
+            return sha1.New()
         case "sha256", "sha-256":
-            return hashSha256
+            return sha256.New()
         case "sha512", "sha-512":
-            return hashSha512
+            return sha512.New()
         case "md5":
-            return hashMd5
+            return md5.New()
     }
     return nil
-}
-
-func hashSha1(data []byte) []byte {
-    h := sha1.New()
-    h.Write(data)
-	return h.Sum(nil)
-}
-
-func hashSha256(data []byte) []byte {
-	h := sha256.New()
-	h.Write(data)
-	return h.Sum(nil)
-}
-
-func hashSha512(data []byte) []byte {
-	h := sha512.New()
-	h.Write(data)
-	return h.Sum(nil)
-}
-
-func hashMd5(data []byte) []byte {
-	h := md5.New()
-	h.Write(data)
-	return h.Sum(nil)
 }
