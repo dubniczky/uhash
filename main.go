@@ -30,9 +30,5 @@ func main() {
     output := hash([]byte(data))
 
     // Encode and output
-    fmt.Printf("%s\n", hexEnc(output))
-}
-
-func hexEnc(data []byte) string {
-	return fmt.Sprintf("%x", data)
+    fmt.Printf("%s\n", encodeHex(output))
 }
