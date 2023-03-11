@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"hash"
 	"io"
@@ -41,30 +42,44 @@ func hashBuffer(r *bufio.Reader , hash hash.Hash) []byte {
     return hash.Sum(nil)
 }
 
-func main() {
+func processInline(data string, hash hash.Hash) []byte {
+    hash.Write([]byte(data))
+    output := hash.Sum(nil)
+    return output
+}
+
+func processStdin(hash hash.Hash) []byte {
+    data := hashBuffer( bufio.NewReader(os.Stdin), hash )
+    return data
+}
+
+func beginHash(args []string) (string, error) {
     // Load hashing method
     if len(os.Args) < 2 {
-        fmt.Println("Usage: uhash <method> <data>")
-        os.Exit(1)
+        return "", errors.New("Usage: uhash <method> <data>")
     }
     method := os.Args[1]
     hash := protocolSwitcher(method)
     if hash == nil {
-        stderr(fmt.Sprintf("Unknown hashing method: %s\n", method))
-        os.Exit(1)
+        return "", errors.New(fmt.Sprintf("Unknown hashing method: %s\n", method))
     }
 
     // Hash from parameter
     if len(os.Args) > 2 {
         data := os.Args[2]
-        hash.Write([]byte(data))
-        output := hash.Sum(nil)
-        fmt.Printf("%s\n", encodeHex(output))
-        os.Exit(0)
+        return encodeHex(processInline(data, hash)), nil
     }
 
     // Hash from stdin
-    data := hashBuffer( bufio.NewReader(os.Stdin), protocolSwitcher(method) )
-    fmt.Printf("%s\n", encodeHex(data))
+    return encodeHex(processStdin(hash)), nil
+}
+
+func main() {
+    hash, err := beginHash(os.Args)
+    if err != nil {
+        stderr(err.Error())
+        os.Exit(1)
+    }
+    fmt.Printf("%s\n", hash)
     os.Exit(0)
 }
