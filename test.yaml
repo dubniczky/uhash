@@ -1,0 +1,25 @@
+cases:
+  - name: Correct output with sha1
+    cmd: sha1 a
+    out: 86f7e437faa5a7fce15d1ddcb9eaeaea377667b8
+    code: 0
+
+  - name: Correct output with quoated params 'a'
+    cmd: sha1 'a'
+    out: 86f7e437faa5a7fce15d1ddcb9eaeaea377667b8
+    code: 0
+
+  - name: Correct output with multiple words 'a a'
+    cmd: sha1 'a a'
+    out: 1e50f47449563923ad4543b986ec355ce1a5bedc
+    code: 0
+
+  - name: Error with no params
+    cmd: 
+    out: null
+    code: 1
+
+  - name: Error with invalid protocol
+    cmd: xxx
+    out: null
+    code: 1

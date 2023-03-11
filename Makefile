@@ -9,10 +9,5 @@ build::
 
 .PHONY: test
 test::
-	@make build
-	@echo "--- sha1 a"
-	@./build/${exec} sha1 a
-	@echo "--- md5 a"
-	@./build/${exec} md5 a
-	@echo "--- sha-256 a"
-	@./build/${exec} sha-256 a
+	python test.py
+	
