@@ -65,4 +65,12 @@ if __name__ == '__main__':
         exit(1)
     print('Build complete')
     
-    print(run_tests())
+    success = run_tests()
+    all = len(test_cases)
+    if success == all:
+        print(f'{col.OKGREEN}ALL {success}/{all}{col.ENDC} tests passed!')
+        exit(0)
+        
+    print(f'{success}/{all} tests passed!')
+    print(f'{col.FAIL}{all-success}/{all}{col.ENDC} tests have errors!')
+    exit(all-success)
