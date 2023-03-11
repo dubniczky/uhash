@@ -22,11 +22,16 @@ class col:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def run_test(name, params, output, status):
+def run_test(params):
+    name = params['name']
+    cmd = params['cmd']
+    output = params['out']
+    status = params['code']    
+    
     global test_index
     test_index += 1
     print(f'{test_index}/{len(test_cases)}: {name}', end='')
-    proc = subprocess.run(f'{main_path} {params}', stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
+    proc = subprocess.run(f'{main_path} {cmd}', stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
 
     # Check status
     if status != None:
@@ -44,9 +49,8 @@ def run_test(name, params, output, status):
 def run_tests():
     success = 0
     for test in test_cases:
-        deconstruct = (test['name'], test['cmd'], test['out'], test['code'])
         try:
-            run_test(*deconstruct)
+            run_test(test)
             success += 1
         except AssertionError as e:
             print(f' - [ {col.FAIL}FAIL{col.ENDC} ] {e}')

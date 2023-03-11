@@ -1,1 +1,9 @@
+# Go
 build/
+*.exe
+*.out
+*.o
+
+# Python
+__pycache__/
+*.pyc

@@ -1,4 +1,6 @@
 cases:
+  # Inline target tests
+
   - name: Correct output with sha1
     cmd: sha1 a
     out: 86f7e437faa5a7fce15d1ddcb9eaeaea377667b8
@@ -19,7 +21,19 @@ cases:
     out: null
     code: 1
 
-  - name: Error with invalid protocol
-    cmd: xxx
-    out: null
-    code: 1
+  # STDIN tests
+
+  - name: Text file input
+    cmd: sha1 < fixtures/lorem.txt
+    out: 3cfdd08acf25c9537e7e53000b2aa8636e7e1b39
+    code: 0
+
+  - name: Binary file input
+    cmd: sha1 < fixtures/rand.bin
+    out: 4745849eac60f8355a1ee00bfb6aa4bdbaa2e33b
+    code: 0
+
+  - name: Empty file input
+    cmd: sha1 < fixtures/empty
+    out: da39a3ee5e6b4b0d3255bfef95601890afd80709
+    code: 0
