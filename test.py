@@ -59,7 +59,7 @@ def run_tests():
     
 if __name__ == '__main__':
     print('Building...')
-    res = os.system('make build') 
+    res = os.system(f'make build && chmod +x {main_path}')
     if res != 0:
         print('Build failed with status code:', res)
         exit(1)

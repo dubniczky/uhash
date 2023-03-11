@@ -8,5 +8,6 @@ build::
 	@chmod +x build/${exec}
 
 .PHONY: test
+# Run end-to-end tests using ptyhon
 test::
 	@python test.py
