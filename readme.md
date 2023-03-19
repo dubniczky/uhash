@@ -26,3 +26,19 @@ cat cat.jpg | uhash md5
 - sha384
 - sha512
 - whirlpool
+
+## Development
+
+The application is written in go and compiled to machine code for all systems. The tests are written in python and execute the terminal application and look for output.
+
+Build development version
+
+```
+make build
+```
+
+Run tests
+
+```
+make test
+```
