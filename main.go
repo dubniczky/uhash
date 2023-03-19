@@ -14,6 +14,10 @@ func stderr(msg string) {
     fmt.Fprintln(os.Stderr, msg)
 }
 
+func encodeHex(data []byte) string {
+	return fmt.Sprintf("%x", data)
+}
+
 func hashBuffer(r *bufio.Reader , hash hash.Hash) []byte {
     nBytes, nChunks := int64(0), int64(0)
     buf := make([]byte, 0, 4*1024)
