@@ -15,8 +15,14 @@ import (
 	"crypto/sha512"
 	"hash"
 
+	"github.com/jessevdk/go-flags"
 	"github.com/jzelinskie/whirlpool"
 )
+
+type Options struct {
+	Help bool `short:"h" long:"help" description:"Show help message" default:"false"`
+	NoNewline bool `short:"n" long:"no-newline" description:"Do not append a new line at the end of the output" default:"false"`
+}
 
 func stderr(msg string) {
     fmt.Fprintln(os.Stderr, msg)
@@ -108,6 +114,14 @@ func beginHash(args []string) (string, error) {
 }
 
 func main() {
+    var options Options
+    flags.Parse(&options)
+
+    if options.Help {
+        stderr("Usage: uhash <method> <data>")
+        os.Exit(0)
+    }
+
     hash, err := beginHash(os.Args)
     if err != nil {
         stderr(err.Error())
