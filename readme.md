@@ -27,6 +27,11 @@ cat cat.jpg | uhash md5
 - sha512
 - whirlpool
 
+### Wishlist:
+
+blake2b
+adler32
+
 ## Development
 
 The application is written in go and compiled to machine code for all systems. The tests are written in python and execute the terminal application and look for output.

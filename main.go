@@ -16,6 +16,7 @@ import (
 	"hash"
 
 	"github.com/jzelinskie/whirlpool"
+	"golang.org/x/crypto/md4"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -30,8 +31,11 @@ func encodeHex(data []byte) string {
 func protocolSwitcher(method string) hash.Hash {
 	method = strings.ToLower(method)
     switch method {
-        case "sha-1", "sha-":
+        // SHA 1
+        case "sha-1", "sha1":
             return sha1.New()
+
+        // SHA 2
 		case "sha-224", "sha224":
 			return sha512.New512_224()
         case "sha-256", "sha256":
@@ -40,8 +44,8 @@ func protocolSwitcher(method string) hash.Hash {
 			return sha512.New384()
         case "sha-512", "sha512":
             return sha512.New()
-		case "whirlpool":
-			return whirlpool.New()
+
+        // SHA 3
         case "sha3-224", "sha3224":
 			return sha3.New224()
         case "sha3-256", "sha3256":
@@ -50,8 +54,16 @@ func protocolSwitcher(method string) hash.Hash {
 			return sha3.New384()
         case "sha3-512", "sha3512":
             return sha3.New512()
+
+        // MD
+        case "md4":
+            return md4.New()
         case "md5":
             return md5.New()
+
+        // Others
+        case "whirlpool":
+			return whirlpool.New()
     }
     return nil
 }
