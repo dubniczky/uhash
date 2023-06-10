@@ -17,6 +17,7 @@ import (
 
 	"github.com/jzelinskie/whirlpool"
 	"golang.org/x/crypto/md4"
+	"golang.org/x/crypto/ripemd160"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -60,6 +61,8 @@ func protocolSwitcher(method string) hash.Hash {
             return md4.New()
         case "md5":
             return md5.New()
+        case "ripemd-160", "ripemd160":
+            return ripemd160.New()
 
         // Others
         case "whirlpool":
@@ -68,7 +71,7 @@ func protocolSwitcher(method string) hash.Hash {
     return nil
 }
 
-func hashBuffer(r *bufio.Reader , hash hash.Hash) []byte {
+func hashBuffer(r *bufio.Reader, hash hash.Hash) []byte {
     nBytes, nChunks := int64(0), int64(0)
     buf := make([]byte, 0, 4*1024)
     for {
